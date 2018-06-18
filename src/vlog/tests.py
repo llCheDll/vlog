@@ -31,6 +31,7 @@ class TransliterationTest(TestCase):
 
         self.assertEqual(cat.slug, 'test')
 
+
         cat_form = forms.CategoryForm(
             {'title': 'Breaking News! Новости.'}, instance=cat
         )
@@ -39,3 +40,17 @@ class TransliterationTest(TestCase):
             cat = cat_form.save()
 
         self.assertEqual(cat.slug, 'breaking-news-novosti')
+
+
+class CategoryTest(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create(
+            username='user', password='qwerty123'
+        )
+
+    def test_category(self):
+        models.Category.objects.create(title='Спорт', author=self.user)
+
+
+
+        cat.save()

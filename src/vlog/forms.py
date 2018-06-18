@@ -18,6 +18,7 @@ def transliterate(text):
             result.append(translit(piece, reversed=True))
         except LanguageDetectionError:
             result.append(piece)
+
     return '-'.join([r for r in result if r])
 
 
@@ -31,19 +32,19 @@ class ArticleForm(PublicationForm):
 
     class Meta:
         model = models.Article
-        exclude = ('slug',)
+        fields = '__all__'
 
 
 class CategoryForm(PublicationForm):
     class Meta:
         model = models.Category
-        exclude = ('slug',)
+        fields = '__all__'
 
 
 class TagForm(PublicationForm):
     class Meta:
         model = models.Tag
-        exclude = ('slug',)
+        fields = '__all__'
 
 
 class CommentForm(forms.ModelForm):

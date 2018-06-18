@@ -11,6 +11,11 @@
             {% include 'core/navbar.tpl' %}
         {% endblock %}
         <br>
+        <nav class="breadcrumb">
+            <ol class="breadcrumb">
+                {% block breadcrumbs %}{% endblock %}
+            </ol>
+        </nav>
         <div class="container-fluid">
             {% block content %}
             {% endblock %}
