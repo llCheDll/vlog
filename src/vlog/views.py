@@ -1,5 +1,6 @@
 from core.views import BaseView
 from django.db.models import Count
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from vlog.models import *
 
@@ -38,7 +39,16 @@ class CategoriesView(BaseView):
     def get(self, request, *args, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        categories = Category.objects.annotate(num=Count('articles__category_id')).order_by('-num')
+        categories_list = Category.objects.annotate(num=Count('articles__category_id')).order_by('-num')
+
+        paginator = Paginator(categories_list, 3)
+
+        page = self.request.GET.get('page')
+
+        categories = paginator.get_page(page)
+
+        # import ipdb
+        # ipdb.set_trace()
 
         context.update({
             'categories': categories,

@@ -41,16 +41,3 @@ class TransliterationTest(TestCase):
 
         self.assertEqual(cat.slug, 'breaking-news-novosti')
 
-
-class CategoryTest(TestCase):
-    def setUp(self):
-        self.user = get_user_model().objects.create(
-            username='user', password='qwerty123'
-        )
-
-    def test_category(self):
-        models.Category.objects.create(title='Спорт', author=self.user)
-
-
-
-        cat.save()

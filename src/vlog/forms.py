@@ -3,23 +3,26 @@ import re
 from django import forms
 
 from ckeditor.widgets import CKEditorWidget
-from transliterate import translit
+# from transliterate import translit
+from transliterate import slugify
 from transliterate.exceptions import LanguageDetectionError
 
 from vlog import models
 
 
 def transliterate(text):
-    pieces = str(re.sub('[\W]+', ' ', text)).lower().split(' ')
-    result = []
+    # pieces = str(re.sub('[\W]+]', ' ', text)).lower().split(' ')
+    # result = []
 
-    for piece in pieces:
-        try:
-            result.append(translit(piece, reversed=True))
-        except LanguageDetectionError:
-            result.append(piece)
+    # for piece in pieces:
+    # try:
+        # result.append(translit(piece, reversed=True))
+    # except LanguageDetectionError:
+    #     return my_str
 
-    return '-'.join([r for r in result if r])
+    # return '-'.join([r for r in result if r])
+    my_str = slugify(text)
+    return my_str
 
 
 class PublicationForm(forms.ModelForm):
