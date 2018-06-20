@@ -5,7 +5,7 @@
     <li class="breadcrumb-item active">{{ _('Categories') }}</li>
 {% endblock %}
 
-{% block title %}_('Categories'){% endblock %}
+{% block title %}{{_('Categories') }}{% endblock %}
 
 {% block content %}
     <h1>{{ _('Categories') }}</h1>
@@ -15,22 +15,12 @@
         <hr>
     {% endfor %}
 
-    <div class="pagination">
-        <span class="step-links">
-            {% if categories.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ categories.previous_page_number }}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                Page {{ categories.number }} of {{ categories.paginator.num_pages }}.
-            </span>
-
-            {% if categories.has_next %}
-                <a href="?page={{ categories.next_page_number }}">next</a>
-                <a href="?page={{ categories.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+          {% for page in categories.paginator.page_range %}
+            <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+          {% endfor %}
+      </ul>
+    </nav>
 
 {% endblock %}

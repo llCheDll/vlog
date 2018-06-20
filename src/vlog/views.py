@@ -41,14 +41,11 @@ class CategoriesView(BaseView):
 
         categories_list = Category.objects.annotate(num=Count('articles__category_id')).order_by('-num')
 
-        paginator = Paginator(categories_list, 3)
+        paginator = Paginator(categories_list, 2)
 
         page = self.request.GET.get('page')
 
         categories = paginator.get_page(page)
-
-        # import ipdb
-        # ipdb.set_trace()
 
         context.update({
             'categories': categories,
