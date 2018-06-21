@@ -16,15 +16,13 @@ class IndexView(BaseView):
         articles = Article.objects.all().values('title',
                                                 'slug',
                                                 'category__slug',
-                                                'comments__article_id') \
-                            .annotate(counter=Count('comments__article_id')) \
-                            .order_by('-counter')[:10] \
+                                                'comments__article_id')[:3]
 
         tags = Tag.articles.through.objects.select_related('tag')\
-                            .values('tag__title',
-                                    'tag__slug')\
-                            .annotate(counter=Count('article_id'))\
-                            .order_by('-counter')[:10]
+                           .values('tag__title',
+                                   'tag__slug')\
+                           .annotate(counter=Count('article_id'))\
+                           .order_by('-counter')[:3]
 
         context.update({'articles': articles})
         context.update({'categories': categories})
@@ -63,9 +61,7 @@ class CategoryView(BaseView):
         category = Category.objects.get(slug=kwargs.get('category_title'))
 
         articles = Article.objects\
-            .filter(category_id=category.id)\
-            .annotate(counter=Count('comments__article_id'))\
-            .order_by('-counter')\
+            .filter(category_id=category.id)
 
         articles_filter = articles[:2]
 
@@ -159,7 +155,7 @@ class TagView(BaseView):
     def get(self, request, *args, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        tag = Tag.objects.get(slug=kwargs.get('tag_title'))
+        tag = Tag.objects.filter(slug=kwargs.get('tag_title')).values('id',)
 
         context.update({
             'tag': tag,

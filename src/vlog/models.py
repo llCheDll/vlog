@@ -72,6 +72,7 @@ class Article(Publication):
         db_table = 'article'
         verbose_name = _('Article')
         verbose_name_plural = _('Articles')
+        ordering = ['-comments']
 
 
 class Tag(Publication):
