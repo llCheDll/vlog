@@ -1,8 +1,10 @@
 *.py[cod]
 /static/
 /media/
+/htmlcov/
 .idea/
 __pycache__
 venv/
 env/
 settings_local.py
+.coverage

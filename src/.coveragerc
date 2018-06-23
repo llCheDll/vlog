@@ -1,0 +1,8 @@
+[run]
+omit =
+       */.meta/*
+       core/__init__.py
+       core/settings.py
+       vlog/migrations/*
+       vlog/__init__.py
+       vlog/tests.py
