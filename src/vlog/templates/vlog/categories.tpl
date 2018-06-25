@@ -1,8 +1,8 @@
 {% extends "core/base.tpl" %}
+{% import "core/macros.tpl" as macro %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item"><a href="{{ url('vlog:index') }}">{{ _('Home') }}</a></li>
-    <li class="breadcrumb-item active">{{ _('Categories') }}</li>
+{{ macro.breadcrumbs(crumbs, _('Categories'))}}
 {% endblock %}
 
 {% block title %}{{_('Categories') }}{% endblock %}
@@ -15,7 +15,7 @@
         <hr>
     {% endfor %}
 
-    <nav aria-label="Page navigation example">
+    <nav aria-label="Category navigation">
       <ul class="pagination">
           {% for page in categories.paginator.page_range %}
             <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>

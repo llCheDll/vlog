@@ -1,6 +1,8 @@
 from core.views import BaseView
 from django.db.models import Count
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.urls import reverse
+from django.utils.translation import gettext as _
 
 from vlog.models import *
 
@@ -11,22 +13,24 @@ class IndexView(BaseView):
     def get(self, request, *args, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        categories = Category.objects.annotate(num=Count('articles__category_id')).order_by('-num')[:3]
+        categories = Category.objects.annotate(populate=Count('articles')).order_by('-populate')[:3]
 
-        articles = Article.objects.all().values('title',
-                                                'slug',
-                                                'category__slug',
-                                                'comments__article_id')[:3]
+        articles = Article.objects.all()[:10]
+
+        import ipdb
+        ipdb.set_trace()
 
         tags = Tag.articles.through.objects.select_related('tag')\
                            .values('tag__title',
                                    'tag__slug')\
                            .annotate(counter=Count('article_id'))\
-                           .order_by('-counter')[:3]
+                           .order_by('-counter')[:10]
 
-        context.update({'articles': articles})
-        context.update({'categories': categories})
-        context.update({'tags': tags})
+        context.update({
+            'articles': articles,
+            'categories': categories,
+            'tags': tags
+                        })
 
         return self.render_to_response(context)
 
@@ -45,8 +49,13 @@ class CategoriesView(BaseView):
 
         categories = paginator.get_page(page)
 
+        crumbs = [
+            {'url': reverse('vlog:index'), 'title': _('Home')}
+        ]
+
         context.update({
             'categories': categories,
+            'crumbs': crumbs,
         })
 
         return self.render_to_response(context)
@@ -65,10 +74,16 @@ class CategoryView(BaseView):
 
         articles_filter = articles[:2]
 
+        crumbs = [
+            {'url': reverse('vlog:index'), 'title': _('Home')},
+            {'url': reverse('vlog:categories'), 'title': _('Categories')}
+        ]
+
         context.update({
-            'category': category,
             'articles': articles,
-            'articles_filter': articles_filter
+            'articles_filter': articles_filter,
+            'category': category,
+            'crumbs': crumbs,
         })
 
         return self.render_to_response(context)
@@ -91,9 +106,16 @@ class ArticlesView(BaseView):
             .annotate(counter=Count('comments__article_id')) \
             .order_by('-counter')\
 
+        crumbs = [
+            {'url': reverse('vlog:index'), 'title': _('Home')},
+            {'url': reverse('vlog:categories'), 'title': _('Categories')},
+            {'url': reverse('vlog:category', category.slug)}
+        ]
+
         context.update({
             'category': category,
             'articles': articles,
+            'crumbs': crumbs,
         })
 
         return self.render_to_response(context)

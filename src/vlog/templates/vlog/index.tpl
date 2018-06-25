@@ -1,10 +1,11 @@
 {% extends 'core/base.tpl' %}
+{% import 'core/macros.tpl' as macro %}
+
+{% block title %}{{ _('Home') }}{% endblock %}
 
 {% block breadcrumbs %}
-    <li class="breadcrumb-item active">{{ _('Home') }} </li>
+{{ macro.breadcrumbs(active=_('Home')) }}
 {% endblock %}
-
-{% block title %}Index{% endblock %}
 
 {% block content %}
     <h1>{{ _('Popular categories') }}</h1>
@@ -16,7 +17,7 @@
     <h1>{{ _('Most commented articles') }}</h1>
     <br>
     {% for article in articles %}
-        <h2><a href="{{ url('vlog:article', article.category__slug, article.slug) }}">{{ article.title }}</a></h2>
+        <h2><a href="{{ url('vlog:article', article.category.slug, article.slug) }}">{{ article.title }}</a></h2>
         <hr>
     {% endfor %}
     <h1>{{ _('Most populated tags') }}</h1>
