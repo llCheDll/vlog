@@ -11,7 +11,7 @@
     <h1>{{ category.title }}</h1>
     <h2>{{ _('Popular articles') }}</h2>
     <br>
-    {% for article in articles_filter %}
+    {% for article in articles[:2] %}
         <h3><a href="{{ url('vlog:article', category.slug, article.slug) }}">{{ article.title }}</a></h3>
             <h5>{{ article.description }}</h5>
         <hr>
