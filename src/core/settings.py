@@ -166,7 +166,8 @@ USE_L10N = True
 USE_TZ = True
 
 
-LOGIN_REDIRECT_URL = LOGIN_URL = '/login/'
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = 'vlog:index'
 LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 
 # Static files (CSS, JavaScript, Images)

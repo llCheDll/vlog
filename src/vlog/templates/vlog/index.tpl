@@ -23,7 +23,7 @@
     <h1>{{ _('Most populated tags') }}</h1>
     <br>
     {% for tag in tags %}
-        <h2><a href="{{ url('vlog:tags') }}">{{ tag.tag__title }}</a></h2>
+        <h2><a href="{{ url('vlog:tags') }}">{{ tag.title }}</a></h2>
         <hr>
     {% endfor %}
 
