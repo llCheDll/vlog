@@ -5,4 +5,4 @@ omit =
        core/settings.py
        vlog/migrations/*
        vlog/__init__.py
-       vlog/tests.py
+       vlog/tests/*

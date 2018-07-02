@@ -129,7 +129,8 @@ class ArticleView(BaseView):
             {'url': reverse('vlog:index'), 'title': _('Home')},
             {'url': reverse('vlog:categories'), 'title': _('Categories')},
             {'url': reverse(
-                    'vlog:category', kwargs={'category_title': article.category.slug}
+                    'vlog:category',
+                    kwargs={'category_title': article.category.slug}
                     ), 'title': _(article.category.title)},
             {'url': reverse(
                     'vlog:articles', kwargs={'category_title': article.category.slug}

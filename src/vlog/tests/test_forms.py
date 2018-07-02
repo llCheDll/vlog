@@ -42,19 +42,3 @@ class TransliterationTest(TestCase):
         self.assertEqual(cat.slug, 'breaking-news-novosti')
 
 
-class SimpleTest(TestCase):
-    def setUp(self):
-        self.user = get_user_model().objects.create(username='user')
-        self.user.set_password('qwerty123')
-        self.user.save()
-
-        self.client = Client()
-        self.client.login(username='user', password='qwerty123')
-
-    def test_index(self):
-        response = self.client.get(reverse('vlog:categories'))
-        self.assertEqual(response.status_code, 200)
-
-        import ipdb
-        ipdb.set_trace()
-
