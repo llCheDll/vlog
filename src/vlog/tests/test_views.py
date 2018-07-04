@@ -1,11 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.test import TestCase, Client
-from vlog import models
-from vlog import forms
+from vlog import views
 
 
-class SimpleTest(TestCase):
+class ViewTests(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create(username='user')
         self.user.set_password('qwerty123')
@@ -13,6 +12,14 @@ class SimpleTest(TestCase):
 
         self.client = Client()
         self.client.login(username='user', password='qwerty123')
+
+        views.Category.objects.create(slug='sport', author=self.user)
+        views.Article.objects.create(
+            slug='test',
+            category=views.Category.objects.get(slug='sport'),
+            author=self.user
+        )
+        views.Tag.objects.create(slug='ololo')
 
     def test_IndexView(self):
         response = self.client.get(reverse('vlog:index'))
@@ -23,22 +30,33 @@ class SimpleTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_CategoryView(self):
-        category = forms.CategoryForm({'title': 'спорт', 'author': self.user.pk}).save()
+        category = views.Category.objects.get(slug='sport')
 
         response = self.client.get(reverse('vlog:category', kwargs={'category_title': category.slug}))
         self.assertEqual(response.status_code, 200)
 
     def test_ArticlesView(self):
-        category = forms.CategoryForm({'title': 'спорт', 'author': self.user.pk}).save()
+        category = views.Category.objects.get(slug='sport')
 
         response = self.client.get(reverse('vlog:articles', kwargs={'category_title': category.slug}))
         self.assertEqual(response.status_code, 200)
 
     def test_ArticleView(self):
-        category = forms.CategoryForm({'title': 'спорт', 'author': self.user.pk}).save()
+        category = views.Category.objects.get(slug='sport')
+        article = views.Article.objects.get(slug='test')
 
         response = self.client.get(reverse('vlog:article', kwargs={
-                                                                    'category_title': 'sport',
-                                                                    'article_title': 'sport-eto-zlo'
-                                                                    }))
+            'category_title': category.slug,
+            'article_title': article.slug
+        }))
+        self.assertEqual(response.status_code, 200)
+
+    def test_TagsView(self):
+        response = self.client.get(reverse('vlog:tags'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_TagView(self):
+        tag = views.Tag.objects.get(slug='ololo')
+
+        response = self.client.get(reverse('vlog:tag', kwargs={'tag_title': tag.slug}))
         self.assertEqual(response.status_code, 200)
