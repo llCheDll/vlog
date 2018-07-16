@@ -24,22 +24,48 @@ class ViewTests(TestCase):
     def test_IndexView(self):
         response = self.client.get(reverse('vlog:index'))
         self.assertEqual(response.status_code, 200)
+        
+        context = response.context_data
+        
+        self.assertTrue('articles' in context)
+        self.assertTrue('categories' in context)
+        self.assertTrue('tags' in context)
 
     def test_CategoriesView(self):
         response = self.client.get(reverse('vlog:categories'))
         self.assertEqual(response.status_code, 200)
+        
+        context = response.context_data
+        
+        self.assertTrue('categories' in context)
+        self.assertTrue('crumbs' in context)
 
     def test_CategoryView(self):
         category = views.Category.objects.get(slug='sport')
 
         response = self.client.get(reverse('vlog:category', kwargs={'category_title': category.slug}))
         self.assertEqual(response.status_code, 200)
+        
+        context = response.context_data
+        
+        self.assertTrue('articles' in context)
+        self.assertTrue('category' in context)
+        self.assertTrue('crumbs' in context)
+        self.assertEqual(category.slug, 'sport')
 
     def test_ArticlesView(self):
         category = views.Category.objects.get(slug='sport')
 
         response = self.client.get(reverse('vlog:articles', kwargs={'category_title': category.slug}))
         self.assertEqual(response.status_code, 200)
+        
+        context = response.context_data
+        
+        self.assertTrue('articles' in context)
+        self.assertTrue('category' in context)
+        self.assertTrue('crumbs' in context)
+        self.assertEqual(category.slug, 'sport')
+        
 
     def test_ArticleView(self):
         category = views.Category.objects.get(slug='sport')
@@ -50,13 +76,34 @@ class ViewTests(TestCase):
             'article_title': article.slug
         }))
         self.assertEqual(response.status_code, 200)
+        
+        context = response.context_data
+        
+        self.assertTrue('article' in context)
+        self.assertTrue('crumbs' in context)
+        self.assertEqual(article.slug, 'test')
+        self.assertEqual(category.slug, 'sport')
+        
 
     def test_TagsView(self):
         response = self.client.get(reverse('vlog:tags'))
         self.assertEqual(response.status_code, 200)
+        
+        context = response.context_data
+        
+        self.assertTrue('articles' in context)
+        self.assertTrue('tags' in context)
+        self.assertTrue('crumbs' in context)
 
     def test_TagView(self):
         tag = views.Tag.objects.get(slug='ololo')
 
         response = self.client.get(reverse('vlog:tag', kwargs={'tag_title': tag.slug}))
         self.assertEqual(response.status_code, 200)
+        
+        context = response.context_data
+        
+        self.assertTrue('articles' in context)
+        self.assertTrue('tag' in context)
+        self.assertTrue('crumbs' in context)
+        self.assertEqual(tag.slug, 'ololo')

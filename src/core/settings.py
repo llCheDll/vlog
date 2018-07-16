@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'django_jinja',
 
+    'rest_framework',
+
     'core',
     'vlog'
 ]
@@ -122,7 +124,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'vlog',
         'USER': 'vlog',
-        'PASSWORD': 'vlogvlog'
+        'PASSWORD': 'vlog'
     }
 }
 
