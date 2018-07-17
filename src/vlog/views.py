@@ -1,6 +1,6 @@
 from core.views import BaseView
 from django.db.models import Count
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
@@ -31,6 +31,8 @@ class IndexView(BaseView):
             'tags': tags
         })
 
+        BaseView.logger.info(request, context)
+
         return self.render_to_response(context)
 
 
@@ -59,6 +61,8 @@ class CategoriesView(BaseView):
             'crumbs': crumbs,
         })
 
+        BaseView.logger.info(request, kwargs)
+
         return self.render_to_response(context)
 
 
@@ -82,6 +86,8 @@ class CategoryView(BaseView):
             'category': category,
             'crumbs': crumbs,
         })
+
+        BaseView.logger.info(request, kwargs)
 
         return self.render_to_response(context)
 
@@ -111,6 +117,8 @@ class ArticlesView(BaseView):
             'articles': articles,
             'crumbs': crumbs,
         })
+
+        BaseView.logger.info(request, context)
 
         return self.render_to_response(context)
 
@@ -142,6 +150,8 @@ class ArticleView(BaseView):
             'crumbs': crumbs,
         })
 
+        BaseView.logger.info(request, context)
+
         return self.render_to_response(context)
 
 
@@ -169,6 +179,8 @@ class TagsView(BaseView):
             'tags': tags
         })
 
+        BaseView.logger.info(request, kwargs)
+
         return self.render_to_response(context)
 
 
@@ -192,5 +204,7 @@ class TagView(BaseView):
             'crumbs': crumbs,
             'tag': tag,
         })
+
+        BaseView.logger.info("View context:", context)
 
         return self.render_to_response(context)
