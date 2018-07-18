@@ -1,0 +1,4 @@
+2018-07-18 21:36:19,219 vlog.views [INFO] ['IndexView', <QuerySet [<Article: Тест>]>, <QuerySet [<Category: Новости>, <Category: Спорт>]>, <QuerySet []>]
+2018-07-18 21:36:28,828 vlog.views [INFO] ['CategoriesView', <Page 1 of 1>, [{'url': '/', 'title': 'Home'}]]
+2018-07-18 21:37:07,553 vlog.views [INFO] ['CategoryView', <QuerySet [<Article: Тест>]>, <Category: Новости>, [{'url': '/', 'title': 'Home'}, {'url': '/categories/', 'title': 'Categories'}]]
+2018-07-18 21:37:09,763 vlog.views [INFO] ['ArticlesView', <QuerySet [<Article: Тест>]>, <Category: Новости>, [{'url': '/', 'title': 'Home'}, {'url': '/categories/', 'title': 'Categories'}, {'url': '/categories/novosti/', 'title': 'Новости'}]]

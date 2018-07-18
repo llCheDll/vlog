@@ -6,6 +6,10 @@ from django.utils.translation import gettext as _
 
 from vlog.models import *
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 class IndexView(BaseView):
     template_name = 'vlog/index.tpl'
@@ -31,7 +35,7 @@ class IndexView(BaseView):
             'tags': tags
         })
 
-        BaseView.logger.info(request, context)
+        logger.info([type(self).__name__, articles, categories, tags])
 
         return self.render_to_response(context)
 
@@ -61,7 +65,7 @@ class CategoriesView(BaseView):
             'crumbs': crumbs,
         })
 
-        BaseView.logger.info(request, kwargs)
+        logger.info([type(self).__name__, categories, crumbs])
 
         return self.render_to_response(context)
 
@@ -87,7 +91,7 @@ class CategoryView(BaseView):
             'crumbs': crumbs,
         })
 
-        BaseView.logger.info(request, kwargs)
+        logger.info([type(self).__name__, articles, category, crumbs])
 
         return self.render_to_response(context)
 
@@ -118,7 +122,7 @@ class ArticlesView(BaseView):
             'crumbs': crumbs,
         })
 
-        BaseView.logger.info(request, context)
+        logger.info([type(self).__name__, articles, category, crumbs])
 
         return self.render_to_response(context)
 
@@ -150,7 +154,7 @@ class ArticleView(BaseView):
             'crumbs': crumbs,
         })
 
-        BaseView.logger.info(request, context)
+        logger.info([type(self).__name__, article, crumbs])
 
         return self.render_to_response(context)
 
@@ -179,7 +183,7 @@ class TagsView(BaseView):
             'tags': tags
         })
 
-        BaseView.logger.info(request, kwargs)
+        logger.info([type(self).__name__, articles, tags, crumbs])
 
         return self.render_to_response(context)
 
@@ -205,6 +209,6 @@ class TagView(BaseView):
             'tag': tag,
         })
 
-        BaseView.logger.info("View context:", context)
+        logger.info([type(self).__name__, articles, tag, crumbs])
 
         return self.render_to_response(context)

@@ -15,6 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.join(BASE_DIR, '..')
+LOG_PATH = os.path.join(BASE_DIR, 'logs/')
 
 
 # Quick-start development settings - unsuitable for production
@@ -117,27 +118,35 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'verbose': {
-            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
+        'view': {
+            'class': 'logging.Formatter',
+            'format': '%(asctime)s %(name)-5s [%(levelname)s] %(message)s'
+        }
     },
     'handlers': {
         'file': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '../src/logs/view.log'
-        }
+            'filename': LOG_PATH+'/view.log',
+            'formatter': 'view',
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+        },
     },
     'loggers': {
-        'django.request': {
-            'handlers': ['file'],
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'vlog': {
             'level': 'INFO',
+            'handlers': ['console', 'file'],
             'propagate': False,
         }
-    }
+    },
 }
 
 WSGI_APPLICATION = 'core.wsgi.application'
